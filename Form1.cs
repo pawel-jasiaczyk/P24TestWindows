@@ -42,7 +42,7 @@ namespace P24TestWindow
                     this.p24,
                     Przelewy24.SessionIdGenerationMode.time,
                     "",
-                    "100",
+                    100,
                     "PLN",
                     "Test",
                     "pawel.jasiaczyk@przelewy24.pl",
@@ -51,7 +51,7 @@ namespace P24TestWindow
                     );
 
             this.textBoxSessionId.Text = transaction.P24_session_id;
-            this.textBoxAmount.Text = transaction.P24_amount;
+            this.textBoxAmount.Text = transaction.P24_amount.ToString();
             this.textBoxCurrency.Text = transaction.P24_currency;
             this.textBoxDescription.Text = transaction.P24_description;
             this.textBoxEmail.Text = transaction.P24_email;
@@ -82,7 +82,12 @@ namespace P24TestWindow
                 this.textBoxSessionId.Text = this.transaction.P24_session_id;
             }
 
-            this.transaction.P24_amount = this.textBoxAmount.Text.Trim();
+            int res;
+            if (int.TryParse (this.textBoxAmount.Text.Trim (), out res))
+                this.transaction.P24_amount = res;
+            else
+                MessageBox.Show ("Amount wasnt change!!! Parse error!!!");
+
             this.transaction.P24_currency = this.textBoxCurrency.Text.Trim();
             this.transaction.P24_description = this.textBoxDescription.Text.Trim();
             this.transaction.P24_email = this.textBoxEmail.Text.Trim();
