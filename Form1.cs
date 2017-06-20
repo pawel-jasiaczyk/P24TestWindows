@@ -27,10 +27,10 @@ namespace P24TestWindow
 
         private void CreateTestMerchant()
         {
-            this.p24 = new Przelewy24.Przelewy24 ("49518", "49518", "d13be93f322c7ec3", true);
+            this.p24 = new Przelewy24.Przelewy24 (49518, 49518, "d13be93f322c7ec3", true);
             
-            this.textBoxMerchantId.Text = p24.MerchantId;
-            this.textBoxPosId.Text = p24.PosId;
+            this.textBoxMerchantId.Text = p24.MerchantId.ToString();
+            this.textBoxPosId.Text = p24.PosId.ToString();
             this.textBoxCrc.Text = p24.CrcKey;
             this.checkBoxSandBox.Checked = p24.SandboxMode;
         }
@@ -70,8 +70,25 @@ namespace P24TestWindow
 
         private void btnUpdate_Click (object sender, EventArgs e)
         {
-            this.p24.MerchantId = this.textBoxMerchantId.Text.Trim();
-            this.p24.PosId = this.textBoxPosId.Text.Trim();
+            int mId;
+            if(int.TryParse(this.textBoxMerchantId.Text.Trim(), out mId))
+            {
+                this.p24.MerchantId = mId;
+            }
+            else
+            {
+                MessageBox.Show("Int parse error - Merchant Id wasn't change");
+            }
+
+            int pId;
+            if(int.TryParse(this.textBoxPosId.Text.Trim(), out pId))
+            {
+                this.p24.PosId = pId;
+            }
+            else
+            {
+                MessageBox.Show("Int parse error - Pos Id wasn't change");
+            }
             this.p24.CrcKey = this.textBoxCrc.Text.Trim();
 
             if (this.checkBoxSessionId.Checked)
